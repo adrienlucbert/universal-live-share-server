@@ -1,0 +1,3 @@
+[submodule "proto"]
+	path = proto
+	url = git@github.com:adrienlucbert/universal-live-share-proto.git

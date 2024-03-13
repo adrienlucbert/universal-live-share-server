@@ -1,4 +1,2 @@
-mod logger;
-mod rpc_impl;
+mod helloworld;
 pub mod server;
-pub mod traits;

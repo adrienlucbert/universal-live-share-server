@@ -1,26 +1,28 @@
-mod rpc;
-
-use rpc::server;
+use std::net::SocketAddr;
 
 use clap::Parser;
-use jsonrpsee::tokio;
+
+mod rpc;
 
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
 struct Args {
-    /// Port to listen to. 0 assigns an available port.
-    #[arg(short = 'p', long, default_value_t = 0)]
+    /// Host to listen to
+    #[arg(long, default_value = "0.0.0.0")]
+    host: String,
+
+    /// Port to listen to
+    #[arg(short = 'p', long, default_value_t = 1337)]
     port: u32,
 }
 
 #[tokio::main]
-async fn main() -> anyhow::Result<()> {
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args = Args::parse();
-    let (server_addr, server_handle) = server::start(args.port).await?;
-    let url = format!("ws://{}", server_addr);
 
-    println!("{}", url);
+    let addr = format!("{}:{}", args.host, args.port).parse::<SocketAddr>()?;
+    println!("Listening on port {}", addr.port());
 
-    server_handle.stopped().await;
+    rpc::server::build().serve(addr).await?;
     Ok(())
 }
