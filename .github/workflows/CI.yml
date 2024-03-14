@@ -106,3 +106,13 @@ jobs:
         with:
           command: clippy
           args: -- -D warnings
+
+  consistency-checks:
+    name: Consistency checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: Check proto/impl versions match
+        run: sh .github/workflows/scripts/check_proto_impl_versions.sh
