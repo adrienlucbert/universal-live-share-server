@@ -8,6 +8,9 @@
 
 ## 💡 Introduction
 
+[![CI](https://github.com/adrienlucbert/universal-live-share-server/actions/workflows/CI.yml/badge.svg)](https://github.com/adrienlucbert/universal-live-share-server/actions/workflows/CI.yml)
+[![CodeFactor](https://www.codefactor.io/repository/github/adrienlucbert/universal-live-share-server/badge)](https://www.codefactor.io/repository/github/adrienlucbert/universal-live-share-server)
+
 This is a child repository of [Universal Live-Share](https://github.com/adrienlucbert/universal-live-share).
 It contains the server implementation.
 
