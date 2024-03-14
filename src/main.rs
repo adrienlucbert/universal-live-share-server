@@ -1,8 +1,11 @@
+mod logger;
+mod server;
+
+use log::info;
 use std::net::SocketAddr;
 
 use clap::Parser;
-
-mod rpc;
+use tokio::net::TcpListener;
 
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
@@ -18,11 +21,14 @@ struct Args {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    logger::init();
+
     let args = Args::parse();
 
     let addr = format!("{}:{}", args.host, args.port).parse::<SocketAddr>()?;
-    println!("Listening on port {}", addr.port());
+    let listener = TcpListener::bind(addr).await?;
+    info!("Listening on port {}", listener.local_addr()?.port());
 
-    rpc::server::build().serve(addr).await?;
+    server::serve(listener).await?;
     Ok(())
 }
